@@ -35,6 +35,21 @@ public class ExpirationTest {
     }
 
     @Test
+    void correctTimeLeft() {
+        
+        long expectedExpiration = 1010L;
+        long expectedCurrentTime = 1000L;
+
+        UnixEpochExpiration exp = mock(UnixEpochExpiration.class);
+        when(exp.calculateExpiration()).thenReturn(expectedExpiration);
+        when(exp.getCurrentUnixTimestamp()).thenReturn(expectedCurrentTime);
+        when(exp.getTimeLeft()).thenCallRealMethod();
+
+        assertThat(exp.getTimeLeft()).isEqualTo(10L);
+
+    }
+
+    @Test
     void whenExpired_thenGetTimeLeftReturnMinusOne(){
 
         UnixEpochExpiration exp = mock(UnixEpochExpiration.class);
