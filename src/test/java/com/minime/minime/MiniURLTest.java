@@ -1,47 +1,26 @@
 package com.minime.minime;
 
 import com.minime.minime.domain.MiniURL;
+import com.minime.minime.domain.UnixEpochExpiration;
+
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 class MiniURLTest {
 
     @Test
-    void instantiate() {
-        MiniURL url = new MiniURL();
-
-        assertThat(url).isNotNull();
-
+    void instantiateWithAttributes() {
+        MiniURL url;
+        try {
+            url = new MiniURL(new URL("http://www.google.com.br"), new UnixEpochExpiration(10L));
+            assertThat(url.getExpiration()).isNotNull();
+            assertThat(url.getUrl()).isNotNull();
+            assertThat(url.getClickCount()).isNotNull();
+        } catch (MalformedURLException e) {}
     }
-
-    // @Test
-    // void unixTimeStamp() {
-    //     MiniURL url = new MiniURL();
-    //     long timestamp = url.getUnixTimestamp();
-
-    //     assertThat(timestamp).isLessThanOrEqualTo(System.currentTimeMillis() / 1000);
-
-    // }
-
-    
-    // @Test
-    // void calculateExpiration() {
-    //     MiniURL url = mock(MiniURL.class);
-    //     long expectedUnix = 100000000L;
-    //     when(url.getUnixTimestamp()).thenReturn(expectedUnix);
-
-    //     long expiration = url.calculateExpiration();
-        
-    //     assertThat(expiration).isEqualTo(expectedUnix + 0L);
-    // }
-    
-    // @Test
-    // void instantiateWithValues() {
-    //     MiniURL url = new MiniURL(180);
-
-    //     assertThat(url.getClickCount()).
-    // }
 
 }
