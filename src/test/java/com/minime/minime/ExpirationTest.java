@@ -35,25 +35,14 @@ public class ExpirationTest {
     }
 
     @Test
-    void correctTimeLeft() {
+    void whenExpired_thenGetTimeLeftReturnMinusOne(){
 
-        long secondsToExpire = 5L;
-        long expectedTimeLeft = 4L;
+        UnixEpochExpiration exp = mock(UnixEpochExpiration.class);
+        when(exp.calculateExpiration()).thenReturn(1000L);
+        when(exp.getCurrentUnixTimestamp()).thenReturn(1010L);
+        when(exp.getTimeLeft()).thenCallRealMethod();
 
-        UnixEpochExpiration mockExpiration = mock(UnixEpochExpiration.class);
-        mockExpiration.
-        // UnixEpochExpiration exp = new UnixEpochExpiration(secondsToExpire);
-        when(mockExpiration.getCurrentUnixTimestamp()).thenReturn(100L);
-        when(mockExpiration.calculateExpiration()).thenReturn(104L);
-        long timeLeft = mockExpiration.getTimeLeft();
-        
-        assertThat(timeLeft).isCloseTo(expectedTimeLeft, byLessThan(1l));
-        System.out.println("");
-
-    }
-
-    @Test
-    void whenExpired_then(){
+        assertThat(exp.getTimeLeft()).isEqualTo(-1L);
 
     }
 

@@ -7,8 +7,8 @@ public class UnixEpochExpiration {
     private long secondsToExpire;
     
     public UnixEpochExpiration(long secondsToExpire){
-        this.secondsToExpire = secondsToExpire;
         this.start = getCurrentUnixTimestamp();
+        this.secondsToExpire = secondsToExpire;
     }
 
     public long getCurrentUnixTimestamp() {
@@ -16,11 +16,15 @@ public class UnixEpochExpiration {
     }
 
     public long calculateExpiration() {
-        return this.start + secondsToExpire;
+        return this.start + this.secondsToExpire;
     }
 
     public long getTimeLeft() {
-        return calculateExpiration() - getCurrentUnixTimestamp();
+        long timeLeft = calculateExpiration() - getCurrentUnixTimestamp();
+        if (timeLeft > 0) {
+            return timeLeft;
+        }
+        return -1;
     }
 
     public long getStart() {
